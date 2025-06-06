@@ -29,7 +29,7 @@ func (vm *VendingMachine) GetBalance() int {
 
 func (vm *VendingMachine) AddBalance(amount int) {
 	if amount < 0 {
-		fmt.Println("Amount to add cannot be negative")
+		fmt.Println("Amount cannot be negative")
 		return
 	}
 
@@ -53,8 +53,7 @@ func (vm *VendingMachine) GetSelectedProduct() *m.Item {
 	val, found := vm.Inventory.ItemShelves[code]
 	if !found {
 		fmt.Println("Something went wrong")
-		fmt.Println("Refund: ", vm.Balance)
-		vm.SetState(s.NewIdleState(vm))
+		return nil
 	}
 
 	return val.Item
@@ -66,7 +65,7 @@ func (vm *VendingMachine) AddToInventory(shelves map[string]*m.ItemShelf) {
 	}
 }
 
-func (vm *VendingMachine) RemoveFromInventory(code string) {
+func (vm *VendingMachine) DeleteFromInventory(code string) {
 	_, exists := vm.Inventory.ItemShelves[code]
 	if !exists {
 		fmt.Println("Nothing to remove")
@@ -89,7 +88,7 @@ func (vm *VendingMachine) Dispense() *m.Item {
 	q--
 
 	if q <= 0 {
-		vm.Inventory.ItemShelves[code].IsOutOfStock = true
+		vm.Inventory.ItemShelves[code].InStock = false
 		vm.Inventory.ItemShelves[code].Quantity = 0
 	}
 

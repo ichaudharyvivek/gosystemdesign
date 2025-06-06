@@ -14,7 +14,7 @@ type Machine interface {
 	SetSelectedProduct(code string)
 
 	AddToInventory(shelves map[string]*m.ItemShelf)
-	RemoveFromInventory(code string)
+	DeleteFromInventory(code string)
 
 	Dispense() *m.Item
 }
