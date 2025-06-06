@@ -59,6 +59,15 @@ func (vm *VendingMachine) GetSelectedProduct() *m.Item {
 	return val.Item
 }
 
+func (vm *VendingMachine) GetProductByCode(code string) (*m.Item, bool) {
+	v, ok := vm.Inventory.ItemShelves[code]
+	if !ok {
+		return nil, false
+	}
+
+	return v.Item, ok
+}
+
 func (vm *VendingMachine) AddToInventory(shelves map[string]*m.ItemShelf) {
 	for key, shelf := range shelves {
 		vm.Inventory.ItemShelves[key] = shelf

@@ -13,6 +13,8 @@ type Machine interface {
 	GetSelectedProduct() *m.Item
 	SetSelectedProduct(code string)
 
+	GetProductByCode(code string) (*m.Item, bool)
+
 	AddToInventory(shelves map[string]*m.ItemShelf)
 	DeleteFromInventory(code string)
 

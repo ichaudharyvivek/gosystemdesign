@@ -28,7 +28,7 @@ func (s *HasMoneyState) SelectProduct(code string) {
 	fmt.Println("HasMoneyState: SelectProduct")
 	balance := s.mx.GetBalance()
 
-	value, found := s.mx.GetProduct(code)
+	value, found := s.mx.GetProductByCode(code)
 	if !found {
 		fmt.Println("Item not found")
 		fmt.Println("Refunding:", balance)
