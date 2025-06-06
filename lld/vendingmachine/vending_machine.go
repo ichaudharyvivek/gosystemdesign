@@ -7,24 +7,24 @@ import (
 )
 
 type VendingMachine struct {
-	Balance         int
-	SelectedProduct string
-	State           s.State
-	Inventory       *m.Inventory
+	balance         int
+	selectedProduct string
+	inventory       *m.Inventory
+	state           s.State
 }
 
 func NewVendingMachine() *VendingMachine {
-	vm := &VendingMachine{
-		Balance:   0,
-		Inventory: m.NewInventory(),
-	}
-
-	vm.State = s.NewIdleState(vm)
+	vm := &VendingMachine{}
+	vm.state = s.NewIdleState(vm)
 	return vm
 }
 
-func (vm *VendingMachine) GetBalance() int {
-	return vm.Balance
+func (vm VendingMachine) String() string {
+	return fmt.Sprintf("Balance: %d, \nSelectedProduct: %s, \nInventory: %v, \nState: %v", vm.balance, vm.selectedProduct, vm.inventory, vm.state)
+}
+
+func (vm *VendingMachine) AddInventory(shelves map[string]*m.ItemShelf) {
+	vm.inventory = m.NewInventory(shelves)
 }
 
 func (vm *VendingMachine) AddBalance(amount int) {
@@ -33,73 +33,56 @@ func (vm *VendingMachine) AddBalance(amount int) {
 		return
 	}
 
-	vm.Balance += amount
+	vm.balance += amount
 }
 
-func (vm *VendingMachine) GetState() s.State {
-	return vm.State
+func (vm *VendingMachine) GetBalance() int {
+	return vm.balance
 }
 
 func (vm *VendingMachine) SetState(state s.State) {
-	vm.State = state
+	vm.state = state
 }
 
-func (vm *VendingMachine) SetSelectedProduct(code string) {
-	vm.SelectedProduct = code
-}
-
-func (vm *VendingMachine) GetSelectedProduct() *m.Item {
-	code := vm.SelectedProduct
-	val, found := vm.Inventory.ItemShelves[code]
-	if !found {
-		fmt.Println("Something went wrong")
-		return nil
-	}
-
-	return val.Item
+func (vm *VendingMachine) GetState() s.State {
+	return vm.state
 }
 
 func (vm *VendingMachine) GetProductByCode(code string) (*m.Item, bool) {
-	v, ok := vm.Inventory.ItemShelves[code]
-	if !ok {
+	prod, found := vm.inventory.Shelves[code]
+	if !found {
 		return nil, false
 	}
 
-	return v.Item, ok
+	return prod.Item, true
 }
 
-func (vm *VendingMachine) AddToInventory(shelves map[string]*m.ItemShelf) {
-	for key, shelf := range shelves {
-		vm.Inventory.ItemShelves[key] = shelf
+func (vm *VendingMachine) SetSelectedProduct(code string) {
+	vm.selectedProduct = code
+}
+
+func (vm *VendingMachine) GetSelectedProduct() *m.Item {
+	prod, _ := vm.GetProductByCode(vm.selectedProduct)
+	return prod
+}
+
+func (vm *VendingMachine) IsProductOutOfStock(code string) bool {
+	return vm.inventory.Shelves[code].Quantity > 0
+}
+
+func (vm *VendingMachine) DispenseProduct() (int, bool) {
+	code := vm.selectedProduct
+	prod, _ := vm.GetProductByCode(code)
+
+	vm.inventory.Shelves[code].Quantity -= 1
+	refund := vm.balance - prod.Price
+	if refund > 0 {
+		return refund, false
+	} else {
+		return refund, true
 	}
 }
 
-func (vm *VendingMachine) DeleteFromInventory(code string) {
-	_, exists := vm.Inventory.ItemShelves[code]
-	if !exists {
-		fmt.Println("Nothing to remove")
-		return
-	}
-
-	delete(vm.Inventory.ItemShelves, code)
-}
-
-func (vm *VendingMachine) Dispense() *m.Item {
-	code := vm.SelectedProduct
-
-	product, found := vm.Inventory.ItemShelves[code]
-	if !found {
-		fmt.Println("Product not found")
-		return nil
-	}
-
-	q := vm.Inventory.ItemShelves[code].Quantity
-	q--
-
-	if q <= 0 {
-		vm.Inventory.ItemShelves[code].InStock = false
-		vm.Inventory.ItemShelves[code].Quantity = 0
-	}
-
-	return product.Item
+func (vm *VendingMachine) Refund(amount int) {
+	fmt.Println("Initiating refunding: ", amount)
 }

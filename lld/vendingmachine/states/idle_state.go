@@ -6,32 +6,29 @@ import (
 )
 
 type IdleState struct {
-	mx Machine // Interface to decouple concrete object
+	mx Machine
 }
 
-func NewIdleState(machine Machine) *IdleState {
-	return &IdleState{mx: machine}
+func NewIdleState(mx Machine) *IdleState {
+	return &IdleState{mx}
 }
 
 func (s *IdleState) InsertCoins(coins []m.Coin) {
-	fmt.Println("IdleState: InsertCoins")
-	sum := 0
+	fmt.Println("Idle state, inserting coins")
+
+	amount := 0
 	for _, c := range coins {
-		sum += int(c)
+		amount += int(c)
 	}
 
-	s.mx.AddBalance(sum)
+	s.mx.AddBalance(amount)
 	s.mx.SetState(NewHasMoneyState(s.mx))
 }
 
 func (s *IdleState) SelectProduct(code string) {
-	fmt.Println("Insert coin first before selecting product")
+	fmt.Println("Cannot select product. \nPlease insert a coin to continue")
 }
 
 func (s *IdleState) Dispense() {
-	fmt.Println("Insert coin first before dispensing")
-}
-
-func (s *IdleState) OutOfOrder() {
-	fmt.Println("Machine is working, insert coin to continue")
+	fmt.Println("Cannot dispense product. \nPlease insert a coin to continue")
 }

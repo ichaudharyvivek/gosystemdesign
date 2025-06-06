@@ -1,31 +1,32 @@
 package models
 
+import "fmt"
+
 type Item struct {
-	ItemType ItemType
 	Name     string
+	ItemType ItemType
 	Price    int
 }
 
-func NewItem(iType ItemType, name string, price int) *Item {
-	return &Item{
-		ItemType: iType,
-		Name:     name,
-		Price:    price,
-	}
+func (r Item) String() string {
+	return fmt.Sprintf("Name:%s, Item Type:%s, Price:%d", r.Name, r.ItemType, r.Price)
+}
+
+func NewItem(name string, itemType ItemType, price int) *Item {
+	return &Item{name, itemType, price}
 }
 
 type ItemShelf struct {
-	Quantity int
-	InStock  bool
-	Code     string
 	Item     *Item
+	Quantity int
+	Code     string
+	InStock  bool
 }
 
-func NewItemShelf(q int, code string, item *Item) *ItemShelf {
-	return &ItemShelf{
-		Quantity: q,
-		InStock:  true,
-		Code:     code,
-		Item:     item,
-	}
+func NewItemShelf(code string, quantity int, item *Item) *ItemShelf {
+	return &ItemShelf{item, quantity, code, true}
+}
+
+func (r ItemShelf) String() string {
+	return fmt.Sprintf("Code:%s, Quatity:%d, InStock:%t, \nItem: %s", r.Code, r.Quantity, r.InStock, r.Item)
 }

@@ -4,11 +4,11 @@ type ItemType int
 
 const (
 	CHIPS ItemType = iota
+	SODA
 	SOFT_DRINKS
 	BISCUITS
-	SODA
 )
 
-func (i ItemType) String() string {
-	return [...]string{"Chips", "Soft Drinks", "Biscuits", "Soda"}[i]
+func (r ItemType) String() string {
+	return [...]string{"Chips", "Soda", "Soft Drinks", "Biscuits"}[r]
 }

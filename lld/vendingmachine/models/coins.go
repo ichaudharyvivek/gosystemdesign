@@ -9,8 +9,8 @@ const (
 	TEN       = 10
 )
 
-func (c Coin) String() string {
-	switch c {
+func (r Coin) String() string {
+	switch r {
 	case ONE:
 		return "One"
 	case TWO:

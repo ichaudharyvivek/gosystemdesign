@@ -9,43 +9,46 @@ type HasMoneyState struct {
 	mx Machine
 }
 
-func NewHasMoneyState(machine Machine) *HasMoneyState {
-	return &HasMoneyState{mx: machine}
+func NewHasMoneyState(mx Machine) *HasMoneyState {
+	return &HasMoneyState{mx}
 }
 
 func (s *HasMoneyState) InsertCoins(coins []m.Coin) {
-	fmt.Println("HasMoneyState: InsertCoins")
+	fmt.Println("Has money state, inserting more coins")
 
-	sum := 0
+	total := 0
 	for _, c := range coins {
-		sum += int(c)
+		total += int(c)
 	}
-
-	s.mx.AddBalance(sum)
+	s.mx.AddBalance(total)
 }
 
 func (s *HasMoneyState) SelectProduct(code string) {
-	fmt.Println("HasMoneyState: SelectProduct")
-	balance := s.mx.GetBalance()
+	fmt.Println("Initiated product selection")
 
-	value, found := s.mx.GetProductByCode(code)
+	paid := s.mx.GetBalance()
+	pd, found := s.mx.GetProductByCode(code)
 	if !found {
-		fmt.Println("Item not found")
-		fmt.Println("Refunding:", balance)
+		fmt.Println("Product not found, please select again.")
+		return
 	}
 
-	if value.Price > balance {
-		fmt.Println("Insufficient balance")
-		fmt.Println("Refunding: ", balance)
+	if !s.mx.IsProductOutOfStock(code) {
+		fmt.Println("Product out of stock. Refunding amount")
+		s.mx.Refund(s.mx.GetBalance())
+		s.mx.SetState(NewIdleState(s.mx))
 	}
 
+	if pd.Price > paid {
+		fmt.Println("Insufficient balance, please add more coins")
+		return
+	}
+
+	s.mx.SetSelectedProduct(code)
 	s.mx.SetState(NewDispensingState(s.mx))
+	fmt.Println("Product selected.", pd)
 }
 
 func (s *HasMoneyState) Dispense() {
-	fmt.Println("Please select the product first")
-}
-
-func (s *HasMoneyState) OutOfOrder() {
-	fmt.Println("Machine is working, please insert the coin and select the product")
+	fmt.Println("Please select product to continue")
 }
