@@ -16,7 +16,7 @@ func main() {
 	vm.AddInventory(shelves)
 
 	fmt.Println("-- Adding Coins ---")
-	vm.state.InsertCoins([]m.Coin{m.ONE})
+	vm.state.InsertCoins([]m.Coin{m.ONE, m.FIVE})
 
 	fmt.Println("-- Selecting Product --")
 	vm.state.SelectProduct("103")
