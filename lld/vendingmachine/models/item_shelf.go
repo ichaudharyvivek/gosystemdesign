@@ -8,12 +8,12 @@ type Item struct {
 	Price    int
 }
 
-func (r Item) String() string {
-	return fmt.Sprintf("Name:%s, Item Type:%s, Price:%d", r.Name, r.ItemType, r.Price)
-}
-
 func NewItem(name string, itemType ItemType, price int) *Item {
 	return &Item{name, itemType, price}
+}
+
+func (r Item) String() string {
+	return fmt.Sprintf("Name:%s, Item Type:%s, Price:%d", r.Name, r.ItemType, r.Price)
 }
 
 type ItemShelf struct {
