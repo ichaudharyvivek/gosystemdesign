@@ -20,6 +20,7 @@ func (s *IdleState) InsertCoins(coins []m.Coin) {
 	for _, c := range coins {
 		amount += int(c)
 	}
+	fmt.Println("Coins total value:", amount)
 
 	s.mx.AddBalance(amount)
 	s.mx.SetState(NewHasMoneyState(s.mx))

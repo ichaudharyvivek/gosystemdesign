@@ -77,9 +77,9 @@ func (vm *VendingMachine) DispenseProduct() (int, bool) {
 	vm.inventory.Shelves[code].Quantity -= 1
 	refund := vm.balance - prod.Price
 	if refund > 0 {
-		return refund, false
-	} else {
 		return refund, true
+	} else {
+		return refund, false
 	}
 }
 

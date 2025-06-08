@@ -24,14 +24,10 @@ func (s *DispensingState) SelectProduct(code string) {
 func (s *DispensingState) Dispense() {
 	fmt.Println("Dispensing selected product")
 
-	refund, ok := s.mx.DispenseProduct()
-	if !ok {
-		fmt.Println("Something went wrong. Initiating refund...")
-		s.mx.Refund(s.mx.GetBalance())
-	}
-
-	if refund > 0 {
+	refund, hasRefund := s.mx.DispenseProduct()
+	if hasRefund {
 		s.mx.Refund(refund)
 	}
+
 	s.mx.SetState(NewIdleState(s.mx))
 }

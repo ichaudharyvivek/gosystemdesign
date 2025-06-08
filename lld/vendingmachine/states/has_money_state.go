@@ -46,7 +46,7 @@ func (s *HasMoneyState) SelectProduct(code string) {
 
 	s.mx.SetSelectedProduct(code)
 	s.mx.SetState(NewDispensingState(s.mx))
-	fmt.Println("Product selected.", pd)
+	fmt.Println("Product selected.\n", pd)
 }
 
 func (s *HasMoneyState) Dispense() {
