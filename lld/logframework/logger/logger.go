@@ -53,9 +53,10 @@ func (l *Logger) log(level LogLevel, msg string) {
 	}
 }
 
-func (l *Logger) Trace(msg string)   { l.log(TRACE, msg) }
-func (l *Logger) Debug(msg string)   { l.log(DEBUG, msg) }
-func (l *Logger) Info(msg string)    { l.log(INFO, msg) }
-func (l *Logger) Warning(msg string) { l.log(WARNING, msg) }
-func (l *Logger) Error(msg string)   { l.log(ERROR, msg) }
-func (l *Logger) Fatal(msg string)   { l.log(FATAL, msg) }
+func (l *Logger) Trace(msg string)                   { l.log(TRACE, msg) }
+func (l *Logger) Debug(msg string)                   { l.log(DEBUG, msg) }
+func (l *Logger) Info(msg string)                    { l.log(INFO, msg) }
+func (l *Logger) Warning(msg string)                 { l.log(WARNING, msg) }
+func (l *Logger) Error(msg string)                   { l.log(ERROR, msg) }
+func (l *Logger) Fatal(msg string)                   { l.log(FATAL, msg) }
+func (l *Logger) WithLevel(lvl LogLevel, msg string) { l.log(lvl, msg) }
