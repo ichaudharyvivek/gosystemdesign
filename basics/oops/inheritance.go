@@ -1,5 +1,4 @@
 // go:build inheritance
-
 package main
 
 import "fmt"
