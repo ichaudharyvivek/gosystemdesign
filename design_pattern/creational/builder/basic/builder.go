@@ -1,5 +1,6 @@
 package builder
 
+// The complex object we want to build
 type Car struct {
 	Brand  string
 	Wheels int
@@ -7,6 +8,7 @@ type Car struct {
 	GPS    bool
 }
 
+// Helper class that will initialize the complex object sequentially
 type CarBuilder struct {
 	car *Car
 }
@@ -35,6 +37,7 @@ func (b *CarBuilder) AddGPS() *CarBuilder {
 	return b
 }
 
+// Returns the built concrete object
 func (b *CarBuilder) Build() *Car {
 	return b.car
 }

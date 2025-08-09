@@ -9,11 +9,7 @@ func NewCarDirector(b CarBuilder) *CarDirector {
 }
 
 func (d *CarDirector) MakeSportsCar() *Car {
-	d.builder.AddBrand()
-	d.builder.AddColor()
-	d.builder.AddWheels()
-	d.builder.AddGPS()
-	return d.builder.GetCar()
+	return d.builder.AddBrand().AddColor().AddWheels().AddGPS().GetCar()
 }
 
 // SetBuilder allows changing the builder at runtime

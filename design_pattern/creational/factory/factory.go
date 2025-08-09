@@ -5,8 +5,7 @@ import (
 	"strings"
 )
 
-type Factory struct {
-}
+type Factory struct{}
 
 func NewDBFactory(dbType string, conn string) DB {
 	switch strings.ToLower(dbType) {

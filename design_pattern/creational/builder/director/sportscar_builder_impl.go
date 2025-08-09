@@ -1,6 +1,6 @@
 package director
 
-// here, the various concrete class/object of Car is built
+// Here, the various concrete class/object of Car is built
 // if we use basic build with .AddBrand().AddColor()... - it becomes messy when we have to build multiple object of same type
 // example say if we have to build a sports car, but only brand has to change,
 // with primitive way, we will have to chain method multiple times possibly duplicating code
