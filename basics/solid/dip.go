@@ -1,7 +1,7 @@
 // go:build dip
 
 /*
-Why this follows DIP:
+Why this follows Dependency Injection Principle (DIP):
  - Notification depends on the MessageService interface, not a concrete EmailService.
  - You can swap in SMSService, SlackService, etc., without changing Notification.
 
@@ -30,8 +30,8 @@ Why this follows DIP:
 	    }
 	}
 ```
-Diagram:
-
+# Diagram:
+```
  --- Main Class [Notification]--------
  --- > MessageService service --------
               |
@@ -45,7 +45,7 @@ Diagram:
  --- EmailService --------------------
  --- impl. MessageService ------------
  --- > notify() ----------------------
-
+```
 */
 
 package main

@@ -1,7 +1,7 @@
 // go:build ocp
 
 /*
-Why this follows OCP:
+Why this follows Open Close Principle (OCP):
   - Shape is an interface.
   - You can add new shapes (like Rectangle, Triangle) without changing existing Shape or area() logic.
 

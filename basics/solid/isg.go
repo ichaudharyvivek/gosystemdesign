@@ -1,7 +1,7 @@
 // go:build isp
 
 /*
-Why this follows ISP:
+Why this follows Interface Segregation Principle (ISP):
   - Types only implement interfaces they actually need.
   - Robot doesn’t depend on Eat().
 

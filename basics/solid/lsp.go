@@ -1,7 +1,7 @@
 // go:build lsp
 
 /*
-Why this follows LSP:
+Why this follows Liskov Substitution Principle (LSP):
   - Sparrow implements FlyingBird and can fly.
   - Ostrich only implements Bird, so it can be used in contexts that don’t require flying.
 

@@ -1,7 +1,7 @@
 // go:build srp
 
 /*
-Why this follows SRP:
+Why this follows Single Responsibility Principle (SRP):
   - Invoice handles data storage (just the amount).
   - InvoicePrinter handles presentation (how it’s printed).
   - Each has a single reason to change:
