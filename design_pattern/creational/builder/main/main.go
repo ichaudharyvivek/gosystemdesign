@@ -3,7 +3,9 @@ package main
 import (
 	b "design-patterns/creational/builder/basic"
 	d "design-patterns/creational/builder/director"
+	f "design-patterns/creational/builder/functional"
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -18,6 +20,9 @@ func main() {
 
 	// Director example
 	directorExample()
+
+	// Functional options example
+	functionalOptionExample()
 }
 
 func directorExample() {
@@ -32,4 +37,14 @@ func directorExample() {
 
 	fmt.Println(sportsCar)
 	fmt.Println(familyCar)
+}
+
+func functionalOptionExample() {
+	// With base configurations
+	c1 := f.NewHTTPClient()
+	c1.Ping()
+
+	// With custom configuration
+	c2 := f.NewHTTPClient(f.WithBaseURL("https://google.com"), f.WithRetryCount(1), f.WithTimeout(300*time.Millisecond))
+	c2.Ping()
 }
