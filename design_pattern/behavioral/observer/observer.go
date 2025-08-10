@@ -1,7 +1,7 @@
 /*
 The Observer Pattern defines a one-to-many dependency between objects so that when one object changes state,
 all its dependents (observers) are notified and updated automatically.
-Class Diagram:
+Diagram:
 
 	    +---------------+
 	    |   Observer    |<--------------+
@@ -38,16 +38,14 @@ type Observer interface {
 }
 
 // Concrete observer 1 impl Observer
-type EmailClient struct {
-}
+type EmailClient struct{}
 
 func (e *EmailClient) Update(message string) {
 	fmt.Println("Email Client updates: ", message)
 }
 
 // Concrete observer 2 impl Observer
-type SmsClient struct {
-}
+type SmsClient struct{}
 
 func (e *SmsClient) Update(message string) {
 	fmt.Println("SMS Client updates: ", message)

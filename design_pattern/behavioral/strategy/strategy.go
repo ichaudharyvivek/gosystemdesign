@@ -1,5 +1,5 @@
 /*
-The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them inter-changeable.
 The strategy lets the algorithm vary independently from clients that use it.
 EG: Imagine a payment system that supports multiple payment methods: Credit Card, PayPal, UPI.
 

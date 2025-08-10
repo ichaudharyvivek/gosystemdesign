@@ -1,7 +1,7 @@
 /*
 NOTE: Iterator pattern is not idiomatic in Go.
 Iterator patters basically provides an iterator having hasNext(), getNext() methods for a collection
-Class Diagram:
+Diagram:
 +-------------------+         +-----------------------------+
 |    Iterator       |<--------|   NameIterator              |
 |-------------------|         |-----------------------------|
@@ -27,6 +27,9 @@ type Iterator interface {
 }
 
 // Concrete class
+// Note: index denotes the next element to be returned by Next()
+// For instance when u call Next() for the first time, index=0, so element[0] is returned,
+// Then index++ makes index 1, therefore pointing to next element which needs to be returned
 type UserIterator struct {
 	index int
 	users []*User
