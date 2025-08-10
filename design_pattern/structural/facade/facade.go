@@ -4,30 +4,29 @@ Assume if you have multiple small classes working together, its complex to handl
 Create a central class that handles all for you. You don't deal with subclasses anymore.
 Diagram:
 
-	+---------------------+
-	|   HomeTheaterFacade |
-	+---------------------+
-	| - dvd: DVDPlayer    |
+	+------------------------+
+	|   HomeTheaterFacade    |
+	+------------------------+
+	| - dvd: DVDPlayer       |
 	| - projector: Projector |
-	| - sound: SoundSystem |
-	+---------------------+
-	| +WatchMovie(movie)  |
-	| +EndMovie()         |
-	+---------------------+
-
+	| - sound: SoundSystem   |
+	+------------------------+
+	| +WatchMovie(movie)     |
+	| +EndMovie()            |
+	+------------------------+
+		       |
 		       |
 		       | uses
-		-----------------------
-		|          |          |
-		v          v          v
-
-	+---------+ +-----------+ +-------------+
-	| DVDPlayer| | Projector | | SoundSystem|
-	+---------+ +-----------+ +-------------+
-	| +On()   | | +On()     | | +On()       |
-	| +Play() | | +SetInput()| | +SetVolume()|
-	| +Off()  | | +Off()     | | +Off()      |
-	+---------+ +-----------+ +-------------+
+		-------------------------------
+		|              |              |
+		v              v              v
+	+----------+ +------------+ +-------------+
+	| DVDPlayer| | Projector  | | SoundSystem |
+	+----------+ +------------+ +-------------+
+	| +On()    | | +On()      | | +On()       |
+	| +Play()  | | +SetInput()| | +SetVolume()|
+	| +Off()   | | +Off()     | | +Off()      |
+	+----------+ +------------+ +-------------+
 */
 package facade
 

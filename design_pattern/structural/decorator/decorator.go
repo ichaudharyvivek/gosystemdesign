@@ -41,8 +41,7 @@ type Notifier interface {
 }
 
 // Concrete implementation of an interface
-type BaseNotifier struct {
-}
+type BaseNotifier struct{}
 
 func (b *BaseNotifier) Send(message string) {
 	fmt.Println("[Base]", message)
