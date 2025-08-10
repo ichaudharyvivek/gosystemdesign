@@ -40,6 +40,8 @@ Diagram:
 */
 package chain
 
+import "fmt"
+
 type Dispensor interface {
 	SetNext(next Dispensor)
 	Dispense(amount int)
@@ -51,6 +53,7 @@ type BaseDispensor struct {
 	next         Dispensor
 }
 
+// Creates a new dispenser for a specific denomination with available note count
 func NewBaseDispensor(denomination, count int) *BaseDispensor {
 	return &BaseDispensor{
 		denomination: denomination,
@@ -58,10 +61,41 @@ func NewBaseDispensor(denomination, count int) *BaseDispensor {
 	}
 }
 
+// Links the current dispenser to the next one in the chain
 func (d *BaseDispensor) SetNext(next Dispensor) {
 	d.next = next
 }
 
+// Dispenses notes of current denomination, passes remainder to the next dispenser
 func (d *BaseDispensor) Dispense(amt int) {
-	
+	if amt <= 0 || amt%100 != 0 {
+		fmt.Printf("Cannot dispense amount: %d\n", amt)
+		return
+	}
+
+	if amt >= d.denomination {
+		numOfNotes := amt / d.denomination
+		dispenseAmount := numOfNotes * d.denomination
+		remaining := amt - dispenseAmount
+
+		if numOfNotes > d.count {
+			fmt.Println("Not enough notes")
+			return
+		}
+
+		if remaining > 0 {
+			if d.next != nil {
+				d.next.Dispense(remaining)
+			} else {
+				fmt.Println("Cannot print amount")
+				return
+			}
+		}
+
+		d.count -= numOfNotes
+		fmt.Printf("Dispensing %dx%d = %d\n", numOfNotes, d.denomination, dispenseAmount)
+
+	} else {
+		d.next.Dispense(amt)
+	}
 }
