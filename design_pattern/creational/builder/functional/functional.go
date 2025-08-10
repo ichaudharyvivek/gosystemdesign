@@ -1,6 +1,6 @@
 /*
 This pattern is called "functional options" pattern.
-It is used to create an object just like building but instead of method chaining ( .X().Y().Z() ), it uses variable args
+It is used to create an object just like builder pattern but instead of method chaining i.e .X().Y().Build(), it uses variable args
 
 NOTE: This is go specific only.
 */
