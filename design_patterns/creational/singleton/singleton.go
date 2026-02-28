@@ -8,13 +8,19 @@ var (
 )
 
 // Non exportable field so no one can create direct object
-type singleton struct{}
+type singleton struct {
+	host string
+	port int
+}
 
 // Single exportable method to create object
-func GetInstance() *singleton {
+func GetInstance(host string, port int) *singleton {
 	once.Do(func() {
 		if instance == nil {
-			instance = &singleton{}
+			instance = &singleton{
+				host: host,
+				port: port,
+			}
 		}
 	})
 

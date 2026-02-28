@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	one := singleton.GetInstance()
-	two := singleton.GetInstance()
+	one := singleton.GetInstance("localhost", 8080)
+	two := singleton.GetInstance("localhost", 8080)
 
 	if one == two {
 		fmt.Println("Equal")

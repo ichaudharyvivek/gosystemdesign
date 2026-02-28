@@ -16,8 +16,8 @@ Why this follows Liskov Substitution Principle (LSP):
 	}
 
 	class Sparrow implements FlyingBird {
-	    public void fly() { 
-			System.out.println("Sparrow flying"); 
+	    public void fly() {
+			System.out.println("Sparrow flying");
 		}
 	}
 

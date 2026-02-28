@@ -15,12 +15,12 @@ Why this follows Single Responsibility Principle (SRP):
 	class Invoice {
 	    private double amount;
 
-	    public Invoice(double amount) { 
-			this.amount = amount; 
+	    public Invoice(double amount) {
+			this.amount = amount;
 		}
-	    
-		public double getAmount() { 
-			return amount; 
+
+		public double getAmount() {
+			return amount;
 		}
 	}
 
