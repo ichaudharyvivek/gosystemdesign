@@ -3,7 +3,7 @@ package main
 
 import "fmt"
 
-// base object (class in java)
+// Base object
 // Has field- Name and method- Speak
 type Animal struct {
 	Name string
@@ -13,9 +13,9 @@ func (a *Animal) Speak() {
 	fmt.Println(a.Name, "speaks.")
 }
 
-// object dog with field- Breed
-// go do not have inheritance, but we can still inherit using composition
-// here Animal is embedded
+// Object dog with field- Breed
+// Go do not have inheritance, but we can still inherit using composition
+// Here Animal is embedded
 type Dog struct {
 	Animal
 	Breed string

@@ -45,6 +45,4 @@ func main() {
 	// Using PayPal
 	pp := PayPalProcessor{Email: "user@example.com"}
 	Checkout(pp, 59.99)
-
-	// NOTE: All concrete implementation are dynamically implementing the interface.
 }

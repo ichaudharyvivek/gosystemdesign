@@ -6,7 +6,12 @@ import (
 	"time"
 )
 
-// Base logger object(class in java)
+// Logger interface
+type Loggable interface {
+	Log(message string)
+}
+
+// Base logger object
 type Logger struct {
 	Prefix string
 }
@@ -16,12 +21,8 @@ func (l *Logger) Log(message string) {
 	fmt.Printf("[%s] %s: %s\n", timestamp, l.Prefix, message)
 }
 
-type Loggable interface {
-	Log(message string)
-}
-
-// specialized logger - FileLogger
-// overridden method for Log
+// Specialized logger - FileLogger
+// Overridden method for Log
 type FileLogger struct {
 	Logger
 	FilePath string
@@ -33,8 +34,8 @@ func (fl *FileLogger) Log(message string) {
 
 }
 
-// specialized logger - DBLogger
-// overridden method for Log
+// Specialized logger - DBLogger
+// Overridden method for Log
 type DBLogger struct {
 	Logger
 	Connection string
