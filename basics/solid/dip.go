@@ -2,12 +2,13 @@
 
 /*
 Why this follows Dependency Injection Principle (DIP):
- - Notification depends on the MessageService interface, not a concrete EmailService.
- - You can swap in SMSService, SlackService, etc., without changing Notification.
+  - Notification depends on the MessageService interface, not a concrete EmailService.
+  - You can swap in SMSService, SlackService, etc., without changing Notification.
 
 # High-level logic is decoupled from low-level implementations.
 # Equivalent java code:
 ```java
+
 	interface MessageService {
 	    void sendMessage(String msg);
 	}
@@ -29,39 +30,51 @@ Why this follows Dependency Injection Principle (DIP):
 	        service.sendMessage("Hello User!");
 	    }
 	}
+
 ```
 # Diagram:
 ```
- --- Main Class [Notification]--------
- --- > MessageService service --------
-              |
-			  |
-			  *
- --- Interface MessageService --------
- --- > sendMessage(String message) ---
-			  *
-			  |
-			  |
- --- EmailService --------------------
- --- impl. MessageService ------------
- --- > notify() ----------------------
+
+	 --- Main Class [Notification]--------
+	 --- > MessageService service --------
+	              |
+				  |
+				  *
+	 --- Interface MessageService --------
+	 --- > sendMessage(String message) ---
+				  *
+				  |
+				  |
+	 --- EmailService --------------------
+	 --- impl. MessageService ------------
+	 --- > notify() ----------------------
+
 ```
 */
-
 package main
 
 import "fmt"
 
+// Abstraction
 type MessageService interface {
 	sendMessage(message string)
 }
 
+// Low level - Impl details depends on abstraction (interface)
 type EmailService struct{}
 
 func (e *EmailService) sendMessage(message string) {
 	fmt.Println("Sending Email:", message)
 }
 
+// Low level - Impl details depends on abstraction (interface)
+type SMSService struct{}
+
+func (s *SMSService) sendMessage(message string) {
+	fmt.Println("Sending SMS: ", message)
+}
+
+// High level - depends on abstraction (interface)
 type Notification struct {
 	service MessageService
 }

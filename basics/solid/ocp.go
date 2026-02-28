@@ -16,14 +16,26 @@ Why this follows Open Close Principle (OCP):
 
 	class Circle implements Shape {
 	    public double radius;
-	    public Circle(double radius) { this.radius = radius; }
-	    public double area() { return Math.PI * radius * radius; }
+
+	    public Circle(double radius) {
+			this.radius = radius;
+		}
+
+	    public double area() {
+			return Math.PI * radius * radius;
+		}
 	}
 
 	class Square implements Shape {
 	    public double side;
-	    public Square(double side) { this.side = side; }
-	    public double area() { return side * side; }
+
+	    public Square(double side) {
+			this.side = side;
+		}
+
+	    public double area() {
+			return side * side;
+		}
 	}
 
 ```
