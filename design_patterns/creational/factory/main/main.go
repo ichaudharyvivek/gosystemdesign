@@ -1,7 +1,7 @@
 package main
 
 import (
-	"design-patterns/creational/factory"
+	"design_patterns/creational/factory"
 	"fmt"
 )
 
