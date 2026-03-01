@@ -1,12 +1,12 @@
 package main
 
-import d "design-patterns/structural/decorator"
+import d "design_patterns/structural/decorator"
 
 func main() {
 	base := &d.BaseNotifier{}
 
-	email := &d.EmailNotification{Wrapped: base}
-	sms := &d.SmsNotification{Wrapped: base}
+	email := &d.EmailNotification{Wrapped: base, Email: "x@y.com"}
+	sms := &d.SmsNotification{Wrapped: base, Phone: "1234567890"}
 
 	email.Send("Hello World!")
 	sms.Send("Sent SMS")

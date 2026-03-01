@@ -1,68 +1,66 @@
-/*
-The Adapter Design Pattern is a structural design pattern that allows objects with
-incompatible interfaces to work together by providing a wrapper (the adapter) that
-translates one interface into another.
-Diagram:
-+--------------------+             +---------------------+
-|     Client         |             |    Adaptee          |
-|--------------------|             |---------------------|
-| Uses Target        |             | incompatible method |
-+---------+----------+             +---------+-----------+
-
-	|                                  ^
-	|                                  |
-	v                                  |
-
-+--------------------+            +---------+----------+
-|    <<interface>>   |            |    Adapter         |
-|     Target         |<-----------|--------------------|
-|--------------------| implements | - adaptee: Adaptee |
-| + request()        |            | + request()        |
-+--------------------+            +--------------------+
-*/
 package adapter
 
 import (
 	"fmt"
 )
 
-// Imagine a situation, where the UI in your app is rendered via XML data
-// Now you want to expand your UI with new library that uses JSON data
-// But since your app's method signature can't use JSON, we need to create a adapter to transform xml -> json
+/*
+The Adapter Design Pattern allows objects with incompatible interfaces to work
+together by providing a wrapper (adapter) that translates one interface to another.
+
+Diagram:
++--------------------+             +---------------------+
+|     Client         |             |    Adaptee          |
+|--------------------|             |---------------------|
+| Uses Target        |             | incompatible method |
++---------+----------+             +---------+-----------+
+          |                                  ^
+          |                                  |
+          v                                  |
++--------------------+             +---------------------+
+|    <<interface>>   |             |    Adapter          |
+|     Target         | <---------- |---------------------|
+|--------------------| implements  | - adaptee: Adaptee  |
+| + request()        |             | + request()         |
++--------------------+             +---------------------+
+
+Real world scenario:
+Your app renders UI using XML data.
+You want to use a new ModernUI library that only speaks JSON.
+Instead of rewriting your entire app, we wrap ModernUI in an adapter
+that accepts XML (familiar interface) and converts it to JSON internally.
+*/
+
 type XMLData string
 type JSONData string
 
+// Target: the interface your app already knows and uses
 type UI interface {
 	Render(xml XMLData)
 }
 
-// LegacyUI implements the UI interface to render the UI on screen using XML data
+// LegacyUI: old implementation of Target, renders XML directly
 type LegacyUI struct{}
 
 func (lui *LegacyUI) Render(xml XMLData) {
 	fmt.Printf("[XML DATA] %s\n", xml)
 }
 
-// New modern UI uses only JSON
+// Adaptee: new incompatible library that only understands JSON
 type ModernUI struct{}
 
 func (mui *ModernUI) RenderJSONData(json JSONData) {
 	fmt.Printf("[JSON DATA] %s\n", json)
 }
 
-// New Adapter class
-// Adaptee:  LegacyUI (the one who is getting adapter)
-// Adapter: ModernUI (the one who is adapting older class)
-type LegacyToModernAdapter struct {
-	Adapter *ModernUI
+// Adapter: wraps the Adaptee (ModernUI) and implements the Target (UI) interface
+// so the client can keep calling Render(xml) without any changes
+type ModernToLegacyAdapter struct {
+	Adaptee *ModernUI
 }
 
-// We kept the interface defination same but the new method adapts to JSON data
-// So now, a user can still call x.Render(xml) => but the UI will render modern UI with JSON data
-func (a *LegacyToModernAdapter) Render(xml XMLData) {
-	// Convert XMLData to JSON
+func (a *ModernToLegacyAdapter) Render(xml XMLData) {
+	// Convert XML to JSON and delegate to Adaptee
 	json := JSONData(xml)
-
-	// Finally call the adapter method
-	a.Adapter.RenderJSONData(json)
+	a.Adaptee.RenderJSONData(json)
 }

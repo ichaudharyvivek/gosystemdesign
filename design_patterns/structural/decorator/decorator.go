@@ -50,19 +50,21 @@ func (b *BaseNotifier) Send(message string) {
 // Decorator 1
 // Email Notification
 type EmailNotification struct {
+	Email   string
 	Wrapped Notifier
 }
 
 func (e *EmailNotification) Send(message string) {
-	e.Wrapped.Send(fmt.Sprintf("[Email] %s", message))
+	e.Wrapped.Send(fmt.Sprintf("[Email] to: %s, message: %s", e.Email, message))
 }
 
 // Decorator 2
 // SMS Notification
 type SmsNotification struct {
+	Phone   string
 	Wrapped Notifier
 }
 
 func (e *SmsNotification) Send(message string) {
-	e.Wrapped.Send(fmt.Sprintf("[SMS] %s", message))
+	e.Wrapped.Send(fmt.Sprintf("[SMS] to:%s, message: %s", e.Phone,message))
 }

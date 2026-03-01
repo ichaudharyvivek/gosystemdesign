@@ -1,7 +1,7 @@
 package main
 
 import (
-	f "design-patterns/structural/facade"
+	f "design_patterns/structural/facade"
 	"fmt"
 )
 
