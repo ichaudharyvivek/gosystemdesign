@@ -1,21 +1,21 @@
 package main
 
 import (
-	b "design-patterns/creational/builder/basic"
-	d "design-patterns/creational/builder/director"
-	f "design-patterns/creational/builder/functional"
+	b "design_patterns/creational/builder/basic"
+	d "design_patterns/creational/builder/director"
+	f "design_patterns/creational/builder/functional"
 	"fmt"
 	"time"
 )
 
 func main() {
+	// Basic example
 	car := b.NewCarBuilder().
 		SetBrand("Tesla").
 		SetColor("Red").
 		SetWheels(4).
 		AddGPS().
 		Build()
-
 	fmt.Printf("Car: %+v\n", car)
 
 	// Director example
