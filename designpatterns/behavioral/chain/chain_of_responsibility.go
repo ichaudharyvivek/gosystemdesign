@@ -73,29 +73,28 @@ func (d *BaseDispensor) Dispense(amt int) {
 		return
 	}
 
-	if amt >= d.denomination {
-		numOfNotes := amt / d.denomination
-		dispenseAmount := numOfNotes * d.denomination
-		remaining := amt - dispenseAmount
+	if amt < d.denomination {
+		d.next.Dispense(amt)
+	}
 
-		if numOfNotes > d.count {
-			fmt.Println("Not enough notes")
+	numOfNotes := amt / d.denomination
+	if numOfNotes > d.count {
+		fmt.Println("Not enough notes")
+		return
+	}
+
+	dispenseAmount := numOfNotes * d.denomination
+	remaining := amt - dispenseAmount
+	if remaining > 0 {
+		if d.next == nil {
+			fmt.Println("Cannot print amount")
 			return
 		}
 
-		if remaining > 0 {
-			if d.next != nil {
-				d.next.Dispense(remaining)
-			} else {
-				fmt.Println("Cannot print amount")
-				return
-			}
-		}
-
-		d.count -= numOfNotes
-		fmt.Printf("Dispensing %dx%d = %d\n", numOfNotes, d.denomination, dispenseAmount)
-
-	} else {
-		d.next.Dispense(amt)
+		d.next.Dispense(remaining)
 	}
+
+	d.count -= numOfNotes
+	fmt.Printf("Dispensing %dx%d = %d\n", numOfNotes, d.denomination, dispenseAmount)
+
 }
