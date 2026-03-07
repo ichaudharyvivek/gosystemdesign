@@ -1,6 +1,6 @@
 package main
 
-import s "design-patterns/behavioral/strategy"
+import s "designpatterns/behavioral/strategy"
 
 func main() {
 	credit := s.CreditCardPayment{}

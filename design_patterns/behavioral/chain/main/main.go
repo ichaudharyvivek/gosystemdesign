@@ -1,6 +1,6 @@
 package main
 
-import "design-patterns/behavioral/chain"
+import "designpatterns/behavioral/chain"
 
 func main() {
 	cd := chain.NewCashDispensor()

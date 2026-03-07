@@ -1,7 +1,7 @@
 package main
 
 import (
-	i "design-patterns/behavioral/iterator"
+	i "designpatterns/behavioral/iterator"
 	"fmt"
 )
 

@@ -1,6 +1,6 @@
 package main
 
-import a "design_patterns/structural/adapter"
+import a "designpatterns/structural/adapter"
 
 func main() {
 	newService := &a.ModernUI{}

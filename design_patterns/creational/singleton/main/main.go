@@ -1,7 +1,7 @@
 package main
 
 import (
-	"design_patterns/creational/singleton"
+	"designpatterns/creational/singleton"
 	"fmt"
 )
 

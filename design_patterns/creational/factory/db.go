@@ -13,7 +13,7 @@ type MySQL struct {
 	conn string
 }
 
-func NewMySQL(conn string) DB {
+func NewMySQL(conn string) *MySQL {
 	return &MySQL{conn: conn}
 }
 
@@ -32,7 +32,7 @@ type MongoDB struct {
 	conn string
 }
 
-func NewMongoDB(conn string) DB {
+func NewMongoDB(conn string) *MongoDB {
 	return &MongoDB{conn: conn}
 }
 

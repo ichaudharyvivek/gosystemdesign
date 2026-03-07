@@ -1,6 +1,6 @@
 package main
 
-import d "design_patterns/structural/decorator"
+import d "designpatterns/structural/decorator"
 
 func main() {
 	base := &d.BaseNotifier{}

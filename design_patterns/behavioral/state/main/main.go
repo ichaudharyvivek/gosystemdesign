@@ -1,7 +1,7 @@
 package main
 
 import (
-	s "design-patterns/behavioral/state"
+	s "designpatterns/behavioral/state"
 	"fmt"
 )
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	b "design_patterns/creational/builder/basic"
-	d "design_patterns/creational/builder/director"
-	f "design_patterns/creational/builder/functional"
+	b "designpatterns/creational/builder/basic"
+	d "designpatterns/creational/builder/director"
+	f "designpatterns/creational/builder/functional"
 	"fmt"
 	"time"
 )

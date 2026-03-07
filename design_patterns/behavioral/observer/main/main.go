@@ -1,6 +1,6 @@
 package main
 
-import o "design-patterns/behavioral/observer"
+import o "designpatterns/behavioral/observer"
 
 func main() {
 	sms := &o.SmsClient{}
