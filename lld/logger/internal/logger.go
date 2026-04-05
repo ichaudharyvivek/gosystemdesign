@@ -44,13 +44,13 @@ func (l *Logger) Fatal(message string) {
 }
 
 func (l *Logger) log(level core.LogLevel, message string) {
-	entry := core.LogEntry{
-		Level:     level,
-		Message:   message,
-		Timestamp: time.Now(),
-	}
+	if level >= l.level {
+		entry := core.LogEntry{
+			Level:     level,
+			Message:   message,
+			Timestamp: time.Now(),
+		}
 
-	if entry.Level >= l.level {
 		for _, appender := range l.appenders {
 			appender.Append(entry)
 		}

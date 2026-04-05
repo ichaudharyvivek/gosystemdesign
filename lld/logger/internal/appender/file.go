@@ -17,7 +17,7 @@ type FileAppender struct {
 func NewFileAppender(path string, formatter formatter.Formatter) (*FileAppender, error) {
 	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return nil,fmt.Errorf("Error in processing file: %w", err)
+		return nil, fmt.Errorf("Error in processing file: %w", err)
 	}
 
 	return &FileAppender{
