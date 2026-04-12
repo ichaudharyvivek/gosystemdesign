@@ -12,6 +12,7 @@ type Logger struct {
 	appenders []appender.Appender
 }
 
+// Returns a logger object with default settings.
 func New() *Logger {
 	level := model.InfoLevel
 	appenders := []appender.Appender{appender.NewConsoleAppender(os.Stdout, formatter.NewTextFormatter())}
