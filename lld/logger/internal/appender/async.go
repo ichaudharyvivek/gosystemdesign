@@ -26,13 +26,13 @@ func NewAsyncAppender(appender Appender, buffer int, workers int) *AsyncAppender
 
 	a.wg.Add(workers)
 	for i := 0; i < workers; i++ {
-		go a.loop()
+		go a.worker()
 	}
 
 	return a
 }
 
-func (a *AsyncAppender) loop() {
+func (a *AsyncAppender) worker() {
 	defer a.wg.Done()
 
 	for {
