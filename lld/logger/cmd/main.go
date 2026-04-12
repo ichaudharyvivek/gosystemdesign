@@ -16,7 +16,7 @@ func TestSimple() {
 	defer log.Close()
 
 	log.Debug().Msg("This is a debug message")
-	log.Info().Fields(map[string]any{"type": "info", "stackName": "ANT_UAT"}).Msg("This is an info messsage")
+	log.Info().WithFields(map[string]any{"type": "info", "stackName": "ANT_UAT"}).Msg("This is an info messsage")
 	log.Warn().Msg("This is a warning message")
 	log.Error().Msg("This is an error message")
 	log.Fatal().Msg("This is a fatal message")
@@ -31,7 +31,7 @@ func TestConcurrent() {
 	for i := 0; i < 100; i++ {
 		i := i
 		g.Go(func() error {
-			log.Info().Fields(map[string]any{
+			log.Info().WithFields(map[string]any{
 				"id": i,
 			}).Msg("concurrent log")
 			return nil

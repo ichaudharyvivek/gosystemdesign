@@ -15,7 +15,7 @@ type Entry struct {
 	fields    map[string]any
 }
 
-func (e *Entry) Fields(fields map[string]any) *Entry {
+func (e *Entry) WithFields(fields map[string]any) *Entry {
 	if e.fields == nil {
 		e.fields = make(map[string]any)
 	}
