@@ -18,6 +18,10 @@ func NewAsyncAppender(appender Appender, buffer int, workers int) *AsyncAppender
 		workers = 1
 	}
 
+	if buffer <= 0 {
+		buffer = 1000
+	}
+
 	a := &AsyncAppender{
 		ch:       make(chan model.Record, buffer),
 		appender: appender,
