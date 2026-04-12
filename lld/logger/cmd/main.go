@@ -25,6 +25,7 @@ func TestSimple() {
 func TestConcurrent() {
 	// Run with: go run -race main.go
 	log := logger.New()
+	defer log.Close()
 
 	var g errgroup.Group
 	for i := 0; i < 100; i++ {
