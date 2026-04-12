@@ -14,6 +14,7 @@ func NewConsoleAppender(out io.Writer) *ConsoleAppender {
 	}
 }
 
-func (a *ConsoleAppender) Append(data []byte) {
-	a.out.Write(data)
+func (a *ConsoleAppender) Append(data []byte) error {
+	_, err := a.out.Write(data)
+	return err
 }

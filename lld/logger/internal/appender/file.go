@@ -22,9 +22,10 @@ func NewFileAppender(path string) (*FileAppender, error) {
 	}, nil
 }
 
-func (a *FileAppender) Append(data []byte) {
+func (a *FileAppender) Append(data []byte) error {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 
-	a.file.Write(data)
+	_, err := a.file.Write(data)
+	return err
 }

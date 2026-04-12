@@ -1,5 +1,5 @@
 package appender
 
 type Appender interface {
-	Append(data []byte)
+	Append(data []byte) error
 }

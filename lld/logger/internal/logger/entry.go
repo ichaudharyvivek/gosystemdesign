@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"fmt"
 	"lld-logger/internal/model"
 	"os"
 	"time"
@@ -42,7 +43,9 @@ func (e *Entry) Msg(message string) {
 
 	data := e.logger.formatter.Format(record)
 	for _, appender := range e.logger.appenders {
-		appender.Append(data)
+		if err := appender.Append(data); err != nil {
+			fmt.Fprintln(os.Stderr, "log write error:", err)
+		}
 	}
 
 	if e.level == model.FatalLevel {

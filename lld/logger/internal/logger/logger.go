@@ -37,13 +37,6 @@ func (l *Logger) SetFormatter(formatter formatter.Formatter) {
 	l.formatter = formatter
 }
 
-func (l *Logger) log(level model.Level) *Entry {
-	return &Entry{
-		logger: l,
-		level:  level,
-	}
-}
-
 func (l *Logger) Debug() *Entry {
 	return l.log(model.DebugLevel)
 }
@@ -62,4 +55,11 @@ func (l *Logger) Error() *Entry {
 
 func (l *Logger) Fatal() *Entry {
 	return l.log(model.FatalLevel)
+}
+
+func (l *Logger) log(level model.Level) *Entry {
+	return &Entry{
+		logger: l,
+		level:  level,
+	}
 }
