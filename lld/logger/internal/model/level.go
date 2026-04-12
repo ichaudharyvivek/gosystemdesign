@@ -1,20 +1,20 @@
-package core
+package model
 
 import (
 	"strconv"
 )
 
-type LogLevel int
+type Level int
 
 const (
-	DebugLevel LogLevel = iota + 1
+	DebugLevel Level = iota + 1
 	InfoLevel
 	WarnLevel
 	ErrorLevel
 	FatalLevel
 )
 
-func (lvl LogLevel) String() string {
+func (lvl Level) String() string {
 	switch lvl {
 	case DebugLevel:
 		return "DEBUG"

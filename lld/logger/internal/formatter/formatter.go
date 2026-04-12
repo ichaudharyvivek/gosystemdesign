@@ -1,7 +1,7 @@
 package formatter
 
-import "lld-logger/internal/core"
+import "lld-logger/internal/model"
 
 type Formatter interface {
-	Format(entry core.LogEntry) []byte
+	Format(entry model.Record) []byte
 }

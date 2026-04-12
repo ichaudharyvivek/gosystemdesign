@@ -2,23 +2,18 @@ package appender
 
 import (
 	"io"
-	"lld-logger/internal/core"
-	"lld-logger/internal/formatter"
 )
 
 type ConsoleAppender struct {
-	out       io.Writer
-	formatter formatter.Formatter
+	out io.Writer
 }
 
-func NewConsoleAppender(out io.Writer, formatter formatter.Formatter) *ConsoleAppender {
+func NewConsoleAppender(out io.Writer) *ConsoleAppender {
 	return &ConsoleAppender{
-		out:       out,
-		formatter: formatter,
+		out: out,
 	}
 }
 
-func (a *ConsoleAppender) Append(entry core.LogEntry) {
-	data := a.formatter.Format(entry)
+func (a *ConsoleAppender) Append(data []byte) {
 	a.out.Write(data)
 }
