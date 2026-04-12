@@ -13,6 +13,7 @@ func main() {
 
 func TestSimple() {
 	log := logger.New()
+	defer log.Close()
 
 	log.Debug().Msg("This is a debug message")
 	log.Info().Fields(map[string]any{"type": "info", "stackName": "ANT_UAT"}).Msg("This is an info messsage")

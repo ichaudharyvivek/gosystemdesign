@@ -29,3 +29,10 @@ func (a *FileAppender) Append(data []byte) error {
 	_, err := a.file.Write(data)
 	return err
 }
+
+func (a *FileAppender) Close() error {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+
+	return a.file.Close()
+}

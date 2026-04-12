@@ -18,3 +18,7 @@ func (a *ConsoleAppender) Append(data []byte) error {
 	_, err := a.out.Write(data)
 	return err
 }
+
+func (a *ConsoleAppender) Close() error {
+	return nil
+}

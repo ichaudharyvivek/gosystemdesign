@@ -57,6 +57,16 @@ func (l *Logger) Fatal() *Entry {
 	return l.log(model.FatalLevel)
 }
 
+func (l *Logger) Close() error {
+	for _, appender := range l.appenders {
+		if err := appender.Close(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (l *Logger) log(level model.Level) *Entry {
 	return &Entry{
 		logger: l,
