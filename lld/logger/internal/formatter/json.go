@@ -12,13 +12,13 @@ func NewJSONFormatter() *JSONFormatter {
 	return &JSONFormatter{}
 }
 
-func (f *JSONFormatter) Format(entry model.Record) []byte {
+func (f *JSONFormatter) Format(record model.Record) []byte {
 	data := make(map[string]any)
 
-	data["level"] = entry.Level.String()
-	data["fields"] = entry.Fields
-	data["message"] = entry.Message
-	data["timestamp"] = entry.Timestamp.Format(time.RFC3339Nano)
+	data["level"] = record.Level.String()
+	data["fields"] = record.Fields
+	data["message"] = record.Message
+	data["timestamp"] = record.Timestamp.Format(time.RFC3339Nano)
 
 	out, _ := json.Marshal(data)
 	return append(out, '\n')

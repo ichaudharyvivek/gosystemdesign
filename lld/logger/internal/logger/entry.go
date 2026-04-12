@@ -41,9 +41,8 @@ func (e *Entry) Msg(message string) {
 		Timestamp: e.timestamp,
 	}
 
-	data := e.logger.formatter.Format(record)
 	for _, appender := range e.logger.appenders {
-		if err := appender.Append(data); err != nil {
+		if err := appender.Append(record); err != nil {
 			fmt.Fprintln(os.Stderr, "log write error:", err)
 		}
 	}

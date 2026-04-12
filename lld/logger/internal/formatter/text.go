@@ -13,19 +13,19 @@ func NewTextFormatter() *TextFormatter {
 	return &TextFormatter{}
 }
 
-func (f *TextFormatter) Format(entry model.Record) []byte {
+func (f *TextFormatter) Format(record model.Record) []byte {
 	var b strings.Builder
 
-	b.WriteString(entry.Timestamp.Format(time.RFC3339))
+	b.WriteString(record.Timestamp.Format(time.RFC3339))
 	b.WriteString(" [")
-	b.WriteString(entry.Level.String())
+	b.WriteString(record.Level.String())
 	b.WriteString("] ")
-	b.WriteString(entry.Message)
+	b.WriteString(record.Message)
 
-	if len(entry.Fields) > 0 {
+	if len(record.Fields) > 0 {
 		b.WriteString(" | ")
 		sep := ""
-		for k, v := range entry.Fields {
+		for k, v := range record.Fields {
 			b.WriteString(sep)
 			fmt.Fprintf(&b, "'%s': '%+v'", k, v)
 			sep = ", "

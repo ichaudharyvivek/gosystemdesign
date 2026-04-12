@@ -1,6 +1,8 @@
 package appender
 
+import "lld-logger/internal/model"
+
 type Appender interface {
-	Append(data []byte) error
+	Append(record model.Record) error
 	Close() error
 }

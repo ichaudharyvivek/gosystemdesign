@@ -9,18 +9,15 @@ import (
 
 type Logger struct {
 	level     model.Level
-	formatter formatter.Formatter
 	appenders []appender.Appender
 }
 
 func New() *Logger {
 	level := model.InfoLevel
-	formatter := formatter.NewTextFormatter()
-	appenders := []appender.Appender{appender.NewConsoleAppender(os.Stdout)}
+	appenders := []appender.Appender{appender.NewConsoleAppender(os.Stdout, formatter.NewTextFormatter())}
 
 	return &Logger{
 		level:     level,
-		formatter: formatter,
 		appenders: appenders,
 	}
 }
@@ -31,10 +28,6 @@ func (l *Logger) SetLevel(level model.Level) {
 
 func (l *Logger) SetAppenders(appenders []appender.Appender) {
 	l.appenders = appenders
-}
-
-func (l *Logger) SetFormatter(formatter formatter.Formatter) {
-	l.formatter = formatter
 }
 
 func (l *Logger) Debug() *Entry {
