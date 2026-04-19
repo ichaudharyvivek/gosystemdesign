@@ -2,6 +2,7 @@ package url
 
 import (
 	"fmt"
+	"lld-urlshortner/internal/encoder"
 	"time"
 )
 
@@ -20,11 +21,11 @@ type Service interface {
 }
 
 type serviceImpl struct {
-	encoder Encoder
+	encoder encoder.Encoder
 	repo    Repository
 }
 
-func NewService(encoder Encoder, repo Repository) *serviceImpl {
+func NewService(encoder encoder.Encoder, repo Repository) *serviceImpl {
 	return &serviceImpl{
 		repo:    repo,
 		encoder: encoder,

@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"lld-urlshortner/internal/encoder"
 	"lld-urlshortner/internal/url"
 	"time"
 )
 
 func main() {
-	be := url.NewBasicEncoder()
+	be := encoder.NewBasicEncoder()
 	repo := url.NewInMemoryURLRepository()
 	us := url.NewService(be, repo)
 
