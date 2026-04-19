@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"lld-urlshortner/internal/encoder"
+	"lld-urlshortner/internal/observer"
 	"time"
 )
 
@@ -22,10 +23,12 @@ type Service interface {
 type service struct {
 	repo    Repository
 	encoder encoder.Encoder
+	bus     *observer.EventBus
 }
 
-func NewService(encoder encoder.Encoder, repo Repository) *service {
+func NewService(encoder encoder.Encoder, repo Repository, bus *observer.EventBus) *service {
 	return &service{
+		bus:     bus,
 		repo:    repo,
 		encoder: encoder,
 	}
@@ -88,6 +91,7 @@ func (s *service) Shorten(original string, config *URLConfig) (string, error) {
 		return "", fmt.Errorf("save failed: %w", err)
 	}
 
+	s.bus.Notify("url.created", url)
 	return code, nil
 }
 
@@ -104,5 +108,6 @@ func (s *service) Resolve(code string) (string, error) {
 		return "", fmt.Errorf("short code %s has expired", code)
 	}
 
+	s.bus.Notify("url.accessed", url)
 	return url.Original, nil
 }

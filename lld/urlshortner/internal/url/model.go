@@ -9,9 +9,3 @@ type URL struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-type URLStats struct {
-	Code       string
-	Clicks     int
-	AccessLogs []time.Time
-}
