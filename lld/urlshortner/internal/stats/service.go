@@ -37,6 +37,7 @@ func (s *service) RecordClick(code string) error {
 		if errors.Is(err, ErrNotFound) {
 			return fmt.Errorf("cannot record click: %w", err)
 		}
+		return err
 	}
 
 	stats.Clicks++
@@ -52,8 +53,8 @@ func (s *service) Update(event string, data any) {
 		fmt.Println("Event:", event)
 		urlStats := &URLStats{
 			Code:       url.Code,
-			Clicks:     1,
-			AccessLogs: []time.Time{time.Now()},
+			Clicks:     0,
+			AccessLogs: []time.Time{},
 		}
 		s.SetStats(url.Code, urlStats)
 
