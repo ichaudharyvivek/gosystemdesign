@@ -23,9 +23,9 @@ func NewAsyncAppender(appender Appender, buffer int, workers int) *AsyncAppender
 	}
 
 	a := &AsyncAppender{
-		ch:       make(chan model.Record, buffer),
 		appender: appender,
 		quit:     make(chan struct{}),
+		ch:       make(chan model.Record, buffer),
 	}
 
 	a.wg.Add(workers)
