@@ -10,18 +10,18 @@ type Repository interface {
 	FindByCode(code string) (*URL, error)
 }
 
-type InMemoryURLRepository struct {
+type InMemoryRepository struct {
 	mu    sync.RWMutex
 	store map[string]*URL
 }
 
-func NewInMemoryURLRepository() *InMemoryURLRepository {
-	return &InMemoryURLRepository{
+func NewInMemoryRepository() *InMemoryRepository {
+	return &InMemoryRepository{
 		store: make(map[string]*URL),
 	}
 }
 
-func (r *InMemoryURLRepository) Save(url *URL) error {
+func (r *InMemoryRepository) Save(url *URL) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -33,7 +33,7 @@ func (r *InMemoryURLRepository) Save(url *URL) error {
 	return nil
 }
 
-func (r *InMemoryURLRepository) FindByCode(code string) (*URL, error) {
+func (r *InMemoryRepository) FindByCode(code string) (*URL, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 

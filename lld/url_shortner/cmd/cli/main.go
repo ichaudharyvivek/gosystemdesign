@@ -9,7 +9,7 @@ import (
 
 func main() {
 	be := encoder.NewBasicEncoder()
-	repo := url.NewInMemoryURLRepository()
+	repo := url.NewInMemoryRepository()
 	us := url.NewService(be, repo)
 
 	// Shorten the long URL
