@@ -26,7 +26,11 @@ func (r *InMemoryRepository) Save(url *URL) error {
 	defer r.mu.Unlock()
 
 	if url == nil {
-		return fmt.Errorf("url provided is nil")
+		return ErrInvalidInput
+	}
+
+	if _, exists := r.store[url.Code]; exists {
+		return fmt.Errorf("code %s: %w", url.Code, ErrAlreadyExists)
 	}
 
 	r.store[url.Code] = url
@@ -39,7 +43,7 @@ func (r *InMemoryRepository) FindByCode(code string) (*URL, error) {
 
 	url, exists := r.store[code]
 	if !exists {
-		return nil, fmt.Errorf("url with short code %s not found", code)
+		return nil, fmt.Errorf("code %s: %w", code, ErrNotFound)
 	}
 
 	return url, nil

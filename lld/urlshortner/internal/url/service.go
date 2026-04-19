@@ -1,14 +1,13 @@
 package url
 
 import (
+	"errors"
 	"fmt"
 	"lld-urlshortner/internal/encoder"
 	"time"
 )
 
-const (
-	MAX_RETRIES = 3
-)
+const MAX_RETRIES = 3
 
 type URLConfig struct {
 	CustomCode string
@@ -32,35 +31,45 @@ func NewService(encoder encoder.Encoder, repo Repository) *service {
 	}
 }
 
-// Todo: add a retry logic here
 func (s *service) Shorten(original string, config *URLConfig) (string, error) {
-	var err error
-	var code string
-	var expiresAt *time.Time
+	var (
+		err       error
+		code      string
+		expiresAt *time.Time
+	)
 
-	if config != nil {
-		if config.CustomCode != "" {
-			code = config.CustomCode
+	now := time.Now()
+	if config != nil && config.CustomCode != "" {
+		code = config.CustomCode
 
-			// Check if the custom code already exists
-			_, ok := s.repo.FindByCode(code)
-			if ok != nil {
-				return "", fmt.Errorf("the custom code %s already exists", code)
+		_, err = s.repo.FindByCode(code)
+		if err == nil {
+			return "", fmt.Errorf("custom code already exists")
+		}
+		if !errors.Is(err, ErrNotFound) {
+			return "", fmt.Errorf("repo error: %w", err)
+		}
+	} else {
+		found := false
+		for i := 0; i < MAX_RETRIES; i++ {
+			code, err = s.encoder.Generate()
+			if err != nil {
+				return "", fmt.Errorf("generate failed: %w", err)
+			}
+
+			_, err = s.repo.FindByCode(code)
+			if errors.Is(err, ErrNotFound) {
+				found = true
+				break
+			}
+			if err != nil {
+				return "", fmt.Errorf("error in generating code: %w", err)
 			}
 		}
 
-		if config.ExpiresAt != nil {
-			expiresAt = config.ExpiresAt
+		if !found {
+			return "", fmt.Errorf("failed to generate unique code after %d retries", MAX_RETRIES)
 		}
-	}
-
-	code, err := s.encoder.Generate()
-	if err != nil {
-		return "", err
-	}
-
-	if config != nil && config.CustomCode != "" {
-		code = config.CustomCode
 	}
 
 	if config != nil && config.ExpiresAt != nil {
@@ -71,25 +80,28 @@ func (s *service) Shorten(original string, config *URLConfig) (string, error) {
 		Code:      code,
 		Original:  original,
 		ExpiresAt: expiresAt,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-	if err := s.repo.Save(url); err != nil {
-		return "", fmt.Errorf("something went wrong while saving the shortened url: %w", err)
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
-	return "s", nil
+	if err := s.repo.Save(url); err != nil {
+		return "", fmt.Errorf("save failed: %w", err)
+	}
+
+	return code, nil
 }
 
 func (s *service) Resolve(code string) (string, error) {
 	url, err := s.repo.FindByCode(code)
 	if err != nil {
-		return "", fmt.Errorf("error in fetching the url: %w", err)
+		if errors.Is(err, ErrNotFound) {
+			return "", err
+		}
+		return "", fmt.Errorf("repo error: %w", err)
 	}
 
-	// Check if the code has been expired
 	if url.ExpiresAt != nil && time.Now().After(*url.ExpiresAt) {
-		return "", fmt.Errorf("the short code %s has expired", code)
+		return "", fmt.Errorf("short code %s has expired", code)
 	}
 
 	return url.Original, nil
