@@ -20,20 +20,40 @@ type Service interface {
 	Resolve(code string) (string, error)
 }
 
-type serviceImpl struct {
-	encoder encoder.Encoder
+type service struct {
 	repo    Repository
+	encoder encoder.Encoder
 }
 
-func NewService(encoder encoder.Encoder, repo Repository) *serviceImpl {
-	return &serviceImpl{
+func NewService(encoder encoder.Encoder, repo Repository) *service {
+	return &service{
 		repo:    repo,
 		encoder: encoder,
 	}
 }
 
 // Todo: add a retry logic here
-func (s *serviceImpl) Shorten(original string, config *URLConfig) (string, error) {
+func (s *service) Shorten(original string, config *URLConfig) (string, error) {
+	var err error
+	var code string
+	var expiresAt *time.Time
+
+	if config != nil {
+		if config.CustomCode != "" {
+			code = config.CustomCode
+
+			// Check if the custom code already exists
+			_, ok := s.repo.FindByCode(code)
+			if ok != nil {
+				return "", fmt.Errorf("the custom code %s already exists", code)
+			}
+		}
+
+		if config.ExpiresAt != nil {
+			expiresAt = config.ExpiresAt
+		}
+	}
+
 	code, err := s.encoder.Generate()
 	if err != nil {
 		return "", err
@@ -43,7 +63,6 @@ func (s *serviceImpl) Shorten(original string, config *URLConfig) (string, error
 		code = config.CustomCode
 	}
 
-	var expiresAt *time.Time
 	if config != nil && config.ExpiresAt != nil {
 		expiresAt = config.ExpiresAt
 	}
@@ -59,13 +78,13 @@ func (s *serviceImpl) Shorten(original string, config *URLConfig) (string, error
 		return "", fmt.Errorf("something went wrong while saving the shortened url: %w", err)
 	}
 
-	return code, nil
+	return "s", nil
 }
 
-func (s *serviceImpl) Resolve(code string) (string, error) {
+func (s *service) Resolve(code string) (string, error) {
 	url, err := s.repo.FindByCode(code)
 	if err != nil {
-		return "", fmt.Errorf("cannot finding the url: %w", err)
+		return "", fmt.Errorf("error in fetching the url: %w", err)
 	}
 
 	// Check if the code has been expired
