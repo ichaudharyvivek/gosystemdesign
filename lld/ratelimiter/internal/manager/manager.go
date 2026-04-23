@@ -18,8 +18,8 @@ func New() *RateLimiterManager {
 	}
 }
 
-func (m *RateLimiterManager) AddUsers(u []*user.User) {
-	for _, user := range u {
+func (m *RateLimiterManager) AddUsers(users []*user.User) {
+	for _, user := range users {
 		m.users[user.ID] = user
 	}
 }
