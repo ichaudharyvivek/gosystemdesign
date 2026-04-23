@@ -3,19 +3,30 @@ package manager
 import (
 	"fmt"
 	"lld-ratelimiter/internal/user"
+	"sync"
 	"time"
 
 	"golang.org/x/sync/errgroup"
+)
+
+var (
+	once     sync.Once
+	instance *RateLimiterManager
 )
 
 type RateLimiterManager struct {
 	users map[int]*user.User
 }
 
+// Returns a singleton instance of a rate limiter manager
 func New() *RateLimiterManager {
-	return &RateLimiterManager{
-		users: make(map[int]*user.User),
-	}
+	once.Do(func() {
+		instance = &RateLimiterManager{
+			users: make(map[int]*user.User),
+		}
+	})
+
+	return instance
 }
 
 func (m *RateLimiterManager) AddUsers(users []*user.User) {
