@@ -4,12 +4,13 @@ import (
 	"lld-ratelimiter/internal/limiter"
 	"lld-ratelimiter/internal/manager"
 	"lld-ratelimiter/internal/user"
+	"time"
 )
 
 func main() {
 	cfg := limiter.FixedWindowConfig{
-		WindowSize:  100,
-		MaxRequests: 1,
+		WindowSize:  10 * time.Second,
+		MaxRequests: 10,
 	}
 
 	m := manager.New()

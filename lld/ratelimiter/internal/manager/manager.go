@@ -27,7 +27,7 @@ func (m *RateLimiterManager) AddUsers(u []*user.User) {
 func (m *RateLimiterManager) Simulate(cfg *SimulateConfig) error {
 	if cfg == nil {
 		cfg = &SimulateConfig{
-			RPS:      1,
+			RPS:      10,
 			Duration: 10 * time.Second,
 		}
 	}
