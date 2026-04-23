@@ -1,7 +1,6 @@
 package limiter
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -45,8 +44,6 @@ func (l *FixedWindowLimiter) Allow() bool {
 		l.windowStart = l.windowStart.Add(l.windowSize * time.Duration(windowsPassed))
 
 	}
-
-	fmt.Println("Remaining requests:", l.remainingRequests)
 
 	if l.remainingRequests <= 0 {
 		return false
