@@ -14,7 +14,7 @@ func (b *EventBus) Subscribe(observer Observer) {
 	b.observers = append(b.observers, observer)
 }
 
-func (b *EventBus) Unsubscribe(observer Observer) {
+func (b *EventBus) UnSubscribe(observer Observer) {
 	for i, o := range b.observers {
 		if o == observer {
 			b.observers = append(b.observers[:i], b.observers[i+1:]...)
@@ -24,7 +24,7 @@ func (b *EventBus) Unsubscribe(observer Observer) {
 }
 
 func (b *EventBus) Notify(event string, data any) {
-	for _, observer := range b.observers {
-		observer.Update(event, data)
+	for _, o := range b.observers {
+		o.Update(event, data)
 	}
 }

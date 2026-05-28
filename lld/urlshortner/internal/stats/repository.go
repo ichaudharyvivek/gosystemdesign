@@ -3,11 +3,13 @@ package stats
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 type Repository interface {
-	GetStats(code string) (*URLStats, error)
-	SetStats(code string, stats *URLStats) error
+	Save(stats *URLStats) error
+	FindByCode(code string) (*URLStats, error)
+	RecordClick(code string) error
 }
 
 type InMemoryRepository struct {
@@ -21,7 +23,19 @@ func NewInMemoryRepository() *InMemoryRepository {
 	}
 }
 
-func (r *InMemoryRepository) GetStats(code string) (*URLStats, error) {
+func (r *InMemoryRepository) Save(stats *URLStats) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	if stats == nil || stats.Code == "" {
+		return fmt.Errorf("invalid stats: %w", ErrInvalidInput)
+	}
+
+	r.store[stats.Code] = stats
+	return nil
+}
+
+func (r *InMemoryRepository) FindByCode(code string) (*URLStats, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -33,7 +47,7 @@ func (r *InMemoryRepository) GetStats(code string) (*URLStats, error) {
 	return stats, nil
 }
 
-func (r *InMemoryRepository) SetStats(code string, stats *URLStats) error {
+func (r *InMemoryRepository) RecordClick(code string) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -41,6 +55,13 @@ func (r *InMemoryRepository) SetStats(code string, stats *URLStats) error {
 		return fmt.Errorf("invalid code: %w", ErrInvalidInput)
 	}
 
-	r.store[code] = stats
+	s, exists := r.store[code]
+	if !exists {
+		s = &URLStats{Code: code}
+		r.store[code] = s
+	}
+
+	s.Count++
+	s.Logs = append(s.Logs, time.Now())
 	return nil
 }

@@ -6,11 +6,11 @@ import (
 )
 
 type URLStats struct {
-	Code       string
-	Clicks     int
-	AccessLogs []time.Time
+	Count int
+	Code  string
+	Logs  []time.Time
 }
 
 func (s *URLStats) String() string {
-	return fmt.Sprintf("{'code': %s, 'clicks': %d, 'accessLogs': %v}", s.Code, s.Clicks, s.AccessLogs)
+	return fmt.Sprintf("{'code': %s, 'clicks': %d, 'accessLogs': %v}", s.Code, s.Count, s.Logs)
 }

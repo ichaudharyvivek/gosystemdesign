@@ -3,14 +3,10 @@ package stats
 import (
 	"errors"
 	"fmt"
-	"lld-urlshortner/internal/url"
-	"time"
 )
 
 type Service interface {
 	GetStats(code string) (*URLStats, error)
-	SetStats(code string, stats *URLStats) error
-	RecordClick(code string) error
 }
 
 type service struct {
@@ -24,42 +20,35 @@ func NewService(repo Repository) *service {
 }
 
 func (s *service) GetStats(code string) (*URLStats, error) {
-	return s.repo.GetStats(code)
-}
-
-func (s *service) SetStats(code string, stats *URLStats) error {
-	return s.repo.SetStats(code, stats)
-}
-
-func (s *service) RecordClick(code string) error {
-	stats, err := s.repo.GetStats(code)
+	stats, err := s.repo.FindByCode(code)
 	if err != nil {
 		if errors.Is(err, ErrNotFound) {
-			return fmt.Errorf("cannot record click: %w", err)
+			return nil, fmt.Errorf("error in getting stats: %w", err)
 		}
-		return err
+
+		return nil, fmt.Errorf("something went wrong: %w", err)
 	}
 
-	stats.Clicks++
-	stats.AccessLogs = append(stats.AccessLogs, time.Now())
-	return s.repo.SetStats(code, stats)
+	return stats, nil
 }
 
 func (s *service) Update(event string, data any) {
-	url := data.(*url.URL)
+	code, ok := data.(string)
+	if !ok {
+		fmt.Printf("invalid data type for event %s\n", event)
+		return
+	}
 
 	switch event {
 	case "url.created":
-		fmt.Println("Event:", event)
-		urlStats := &URLStats{
-			Code:       url.Code,
-			Clicks:     0,
-			AccessLogs: []time.Time{},
+		stats := &URLStats{Code: code}
+		if err := s.repo.Save(stats); err != nil {
+			fmt.Printf("failed to save stats for code %s: %v\n", code, err)
 		}
-		s.SetStats(url.Code, urlStats)
 
 	case "url.accessed":
-		fmt.Println("Event:", event)
-		s.RecordClick(url.Code)
+		if err := s.repo.RecordClick(code); err != nil {
+			fmt.Printf("failed to record click for code %s: %v\n", code, err)
+		}
 	}
 }
