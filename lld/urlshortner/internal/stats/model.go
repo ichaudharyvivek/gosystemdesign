@@ -11,6 +11,6 @@ type URLStats struct {
 	Logs  []time.Time
 }
 
-func (s *URLStats) String() string {
+func (s URLStats) String() string {
 	return fmt.Sprintf("{'code': %s, 'clicks': %d, 'accessLogs': %v}", s.Code, s.Count, s.Logs)
 }
